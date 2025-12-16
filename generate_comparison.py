@@ -308,25 +308,30 @@ TEST_CASES = [
 def find_images(results_dir: Path, test_id: str) -> dict:
     """Find original and result images for a test."""
     images = {"original": None, "reference": None, "result": None}
-    
-    # Look for result images
+
+    # Look for result images - use relative path from results_dir
     for subdir in results_dir.iterdir():
         if subdir.is_dir():
             for img in subdir.glob(f"{test_id}*.png"):
-                images["result"] = str(img)
+                # Use relative path: CategoryName/filename.png
+                images["result"] = f"{subdir.name}/{img.name}"
                 break
-    
-    # Original images would be in test_images/
+
+    # Original images would be in test_images/ - use relative path ../test_images/
     test_images = results_dir.parent / "test_images"
     if test_images.exists():
         for img in test_images.glob("*.jpg"):
             if "reference" not in img.name.lower() and "sample" not in img.name.lower():
                 if images["original"] is None:
-                    images["original"] = str(img)
+                    images["original"] = f"../test_images/{img.name}"
             else:
                 if images["reference"] is None:
-                    images["reference"] = str(img)
-    
+                    images["reference"] = f"../test_images/{img.name}"
+        # Also check for png files
+        for img in test_images.glob("*.png"):
+            if "reference" in img.name.lower():
+                images["reference"] = f"../test_images/{img.name}"
+
     return images
 
 

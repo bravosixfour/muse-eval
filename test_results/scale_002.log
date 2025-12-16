@@ -1,0 +1,24 @@
+/Users/thahirkareem/Library/Python/3.9/lib/python/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+
+============================================================
+Prompt: Add a large globe pendant light centered above the dining table at standard dini...
+Images: ['test_images/dining_room.jpg']
+============================================================
+
+🚀 Submitting to qwen/qwen-image-edit-plus...
+⏳ Waiting for result (ID: qst36scz8drm80cv3tytf7sye4)...
+...
+
+✅ Done in 11.2s
+🔗 URL: https://replicate.delivery/xezq/ZtXO7NKhosK3PN7xz1RlUhQdvigvoK1KBhUnE6cFFG7aczcF/out-0.png
+💾 Saved: result_20251215_012149.png
+
+============================================================
+EVALUATE:
+  - Does it match your intent?
+  - Are preserved elements actually preserved?
+  - Is the scale/proportion reasonable?
+  - Are materials/textures realistic?
+  - Any artifacts or obvious AI tells?
+============================================================

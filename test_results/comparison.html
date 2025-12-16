@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>MUSE Test Results Comparison</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .meta {
+            text-align: center;
+            color: #888;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .category {
+            margin-bottom: 40px;
+        }
+        .category h2 {
+            background: #333;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+        .test-card {
+            background: #2a2a2a;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+        .test-header {
+            padding: 15px 20px;
+            background: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .test-title {
+            font-size: 16px;
+            font-weight: 500;
+        }
+        .test-meta {
+            display: flex;
+            gap: 15px;
+            font-size: 12px;
+            color: #888;
+        }
+        .badge {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .badge-hard { background: #f59e0b; color: #000; }
+        .badge-very_hard { background: #ef4444; color: #fff; }
+        .badge-medium { background: #3b82f6; color: #fff; }
+        .badge-success { background: #22c55e; color: #fff; }
+        .badge-fail { background: #ef4444; color: #fff; }
+
+        .test-content {
+            padding: 20px;
+        }
+        .prompt-box {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #ccc;
+        }
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 15px;
+        }
+        .image-slot {
+            background: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .image-slot-header {
+            padding: 8px 12px;
+            background: #333;
+            font-size: 12px;
+            color: #888;
+            text-transform: uppercase;
+        }
+        .image-slot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .image-slot .placeholder {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .criteria-section {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .criteria-box {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+        }
+        .criteria-box h4 {
+            font-size: 12px;
+            text-transform: uppercase;
+            color: #888;
+            margin-bottom: 10px;
+        }
+        .criteria-box ul {
+            list-style: none;
+            font-size: 13px;
+        }
+        .criteria-box li {
+            padding: 5px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .criteria-box li::before {
+            content: '○';
+            color: #555;
+        }
+
+        .score-section {
+            margin-top: 20px;
+            padding: 15px;
+            background: #1a1a1a;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .score-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .score-input label {
+            font-size: 14px;
+            color: #888;
+        }
+        .score-input select {
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+            font-size: 14px;
+        }
+        .notes-input {
+            flex: 1;
+        }
+        .notes-input textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #444;
+            background: #333;
+            color: #fff;
+            font-size: 13px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .summary {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #333;
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .summary button {
+            background: #3b82f6;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .summary button:hover {
+            background: #2563eb;
+        }
+
+        @media (max-width: 768px) {
+            .criteria-section { grid-template-columns: 1fr; }
+            .score-section { flex-direction: column; align-items: stretch; }
+        }
+    </style>
+</head>
+<body>
+    <h1>MUSE Model Capability Test Results</h1>
+    <div class="meta">
+        Generated: 2025-12-16 13:32 | Model: qwen/qwen-image-edit-plus
+    </div>
+
+    <div class="category"><h2>Precise Scale</h2>
+    <div class="test-card" data-test-id="scale_001">
+        <div class="test-header">
+            <div class="test-title">Sofa sizing - specific dimensions</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Precise_Scale/scale_001_132615.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Sofa proportionally sized to wall</li><li>L-shape orientation correct</li><li>Scale relationship maintained</li><li>Fabric texture visible</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Sofa obviously wrong scale</li><li>Floating or clipping</li><li>Other furniture distorted</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="scale_002">
+        <div class="test-header">
+            <div class="test-title">Pendant light height</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Precise_Scale/scale_002_010957.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Pendant centered over table</li><li>Height appropriate for dining</li><li>Scale proportional</li><li>Materials visible</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Pendant too high or too low</li><li>Wrong size</li><li>Off-center</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Product Replication</h2>
+    <div class="test-card" data-test-id="product_001">
+        <div class="test-header">
+            <div class="test-title">Eames Lounge Chair from reference</div>
+            <div class="test-meta">
+                <span class="badge badge-very_hard">very_hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Product_Replication/product_001_011021.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Recognizable as Eames</li><li>Correct proportions</li><li>Ottoman present</li><li>Materials match</li><li>Shadow correct</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Generic lounger</li><li>Wrong proportions</li><li>Missing ottoman</li><li>Wrong materials</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="product_002">
+        <div class="test-header">
+            <div class="test-title">Specific dining table from reference</div>
+            <div class="test-meta">
+                <span class="badge badge-very_hard">very_hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Product_Replication/product_002_020452.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Design matches reference</li><li>Base structure preserved</li><li>Tabletop correct</li><li>Material accurate</li><li>Scale appropriate</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Generic table</li><li>Features lost</li><li>Wrong proportions</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Multi-Element</h2>
+    <div class="test-card" data-test-id="complex_001">
+        <div class="test-header">
+            <div class="test-title">Full room transformation - 4 changes</div>
+            <div class="test-meta">
+                <span class="badge badge-very_hard">very_hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Multi-Element/complex_001_132717.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Wall color changed</li><li>Sofa replaced</li><li>Rug added</li><li>Coffee table changed</li><li>Preserved elements intact</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Partial changes</li><li>Preserved elements modified</li><li>Visual chaos</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="complex_002">
+        <div class="test-header">
+            <div class="test-title">Kitchen renovation - surfaces + hardware</div>
+            <div class="test-meta">
+                <span class="badge badge-very_hard">very_hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Multi-Element/complex_002_132732.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Marble countertops</li><li>Navy cabinets</li><li>Brass hardware</li><li>Backsplash unchanged</li><li>Appliances unchanged</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Generic marble</li><li>Hardware wrong</li><li>Other elements modified</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Photorealistic Integration</h2>
+    <div class="test-card" data-test-id="realism_001">
+        <div class="test-header">
+            <div class="test-title">Shadow and lighting consistency</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Photorealistic_Integration/realism_001_020540.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Lamp placed correctly</li><li>Shadow direction matches</li><li>Light glow visible</li><li>Materials realistic</li><li>Clean edges</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>No/wrong shadow</li><li>Pasted appearance</li><li>Harsh edges</li><li>Fake materials</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="realism_002">
+        <div class="test-header">
+            <div class="test-title">Reflection and material interaction</div>
+            <div class="test-meta">
+                <span class="badge badge-very_hard">very_hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Photorealistic_Integration/realism_002_020558.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Glass transparency</li><li>Reflections visible</li><li>Chrome reflects</li><li>Natural integration</li><li>Correct proportions</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Opaque glass</li><li>No reflections</li><li>Matte chrome</li><li>Obvious fake</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Consistency</h2>
+    <div class="test-card" data-test-id="consistency_001">
+        <div class="test-header">
+            <div class="test-title">Same edit, three runs</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Consistency/consistency_001_020615.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Mid-century style</li><li>Mustard yellow</li><li>Velvet texture</li><li>Wooden legs</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Drastically different results</li><li>Inconsistent style</li><li>Color varies</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Material Transfer</h2>
+    <div class="test-card" data-test-id="material_001">
+        <div class="test-header">
+            <div class="test-title">Stone sample to countertop</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Material_Transfer/material_001_132857.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Marble resembles reference</li><li>Vein pattern similar</li><li>Color matches</li><li>All surfaces covered</li><li>Continuous slab</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Generic marble</li><li>Veining wrong</li><li>Color off</li><li>Inconsistent</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="material_002">
+        <div class="test-header">
+            <div class="test-title">Fabric sample to upholstery</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Material_Transfer/material_002_011310.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Color matches</li><li>Texture/pattern visible</li><li>Scale appropriate</li><li>Natural drape</li><li>Consistent</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Color different</li><li>Pattern wrong</li><li>Flat application</li><li>Inconsistent</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Style Transfer</h2>
+    <div class="test-card" data-test-id="style_001">
+        <div class="test-header">
+            <div class="test-title">Japandi transformation</div>
+            <div class="test-meta">
+                <span class="badge badge-medium">medium</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Style_Transfer/style_001_011354.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Japandi feel</li><li>Low-profile furniture</li><li>Warm neutrals</li><li>Natural materials</li><li>Minimal feel</li><li>Architecture preserved</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Wrong style</li><li>Too cluttered/empty</li><li>Wrong colors</li><li>Architecture modified</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div><div class="category"><h2>Edge Cases</h2>
+    <div class="test-card" data-test-id="edge_001">
+        <div class="test-header">
+            <div class="test-title">Preserve specific elements</div>
+            <div class="test-meta">
+                <span class="badge badge-hard">hard</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Edge_Cases/edge_001_020829.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Wall color changed</li><li>Everything else identical</li><li>No furniture moved</li><li>Art unchanged</li><li>Lighting unchanged</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Other elements modified</li><li>Furniture moved</li><li>Items changed</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="test-card" data-test-id="edge_002">
+        <div class="test-header">
+            <div class="test-title">Remove single object cleanly</div>
+            <div class="test-meta">
+                <span class="badge badge-medium">medium</span>
+                <span class="badge badge-success">success</span>
+            </div>
+        </div>
+        <div class="test-content">
+            <div class="prompt-box">
+                No prompt recorded
+            </div>
+            
+            <div class="image-grid">
+                
+        <div class="image-slot">
+            <div class="image-slot-header">Original</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/dining_room.jpg" alt="Original">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Reference</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_images/chair_reference.jpg" alt="Reference">
+        </div>
+        
+        <div class="image-slot">
+            <div class="image-slot-header">Result</div>
+            <img src="/Users/thahirkareem/local/muze-model-eval2/test_results/Edge_Cases/edge_002_020843.png" alt="Result">
+        </div>
+        
+            </div>
+            
+            <div class="criteria-section">
+                <div class="criteria-box">
+                    <h4>✓ Success Criteria</h4>
+                    <ul><li>Table removed</li><li>Floor natural</li><li>Floor matches</li><li>Nothing else changed</li><li>No artifacts</li></ul>
+                </div>
+                <div class="criteria-box">
+                    <h4>✗ Failure Indicators</h4>
+                    <ul><li>Partial table</li><li>Floor obvious</li><li>Other furniture moved</li><li>Artifacts</li></ul>
+                </div>
+            </div>
+            
+            <div class="score-section">
+                <div class="score-input">
+                    <label>Score:</label>
+                    <select>
+                        <option value="">-</option>
+                        <option value="5">5 - Excellent</option>
+                        <option value="4">4 - Good</option>
+                        <option value="3">3 - Acceptable</option>
+                        <option value="2">2 - Poor</option>
+                        <option value="1">1 - Failed</option>
+                    </select>
+                </div>
+                <div class="notes-input">
+                    <textarea placeholder="Notes..."></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="summary">
+        <button onclick="exportScores()">Export Scores</button>
+    </div>
+
+    <script>
+        function exportScores() {
+            const scores = [];
+            document.querySelectorAll('.test-card').forEach(card => {
+                const id = card.dataset.testId;
+                const score = card.querySelector('select')?.value || '';
+                const notes = card.querySelector('textarea')?.value || '';
+                scores.push({ id, score, notes });
+            });
+
+            const blob = new Blob([JSON.stringify(scores, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'evaluation_scores.json';
+            a.click();
+        }
+    </script>
+</body>
+</html>

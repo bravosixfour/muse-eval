@@ -1,0 +1,302 @@
+{
+  "run_timestamp": "2025-12-16T13:30:55.028866",
+  "model": "qwen/qwen-image-edit-plus",
+  "total_tests": 16,
+  "successful": 16,
+  "failed": 0,
+  "results": [
+    {
+      "test_id": "scale_001",
+      "category": "Precise Scale",
+      "name": "Sofa sizing - specific dimensions",
+      "difficulty": "hard",
+      "prompt": "Replace the sofa with a large sectional that fills approximately 70% of the wall width. The sectional should be L-shaped, facing right, in warm gray boucl\u00e9 fabric. Maintain proper scale relative to the coffee table and rug.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:26:17.750005",
+      "duration_seconds": 12.57,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/U3vBdMLI2QL2Mli3cv1YxWXDyAMec1jVQhiD4gzRiznbv25KA/out-0.png",
+      "output_file": "scale_001_132615.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "scale_002",
+      "category": "Precise Scale",
+      "name": "Pendant light height",
+      "difficulty": "hard",
+      "prompt": "Add a large globe pendant light centered above the dining table. The pendant should hang at standard dining height - low enough to illuminate the table but high enough to not obstruct views across the table. Warm brass finish, frosted glass globe approximately 50cm diameter.",
+      "images_used": [
+        "dining_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:26:30.401445",
+      "duration_seconds": 10.12,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/yfC7rqGnj0UmAqwiA1CECey7uDLBDRhPJjh9KiXP9K3FfanrA/out-0.png",
+      "output_file": "scale_002_132628.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "product_001",
+      "category": "Product Replication",
+      "name": "Chair from reference",
+      "difficulty": "very_hard",
+      "prompt": "Place the tufted accent chair from the reference image in the corner by the window, replacing the existing armchair. Match the exact design - button tufting, curved back, turned legs. Position angled toward the room. The chair should integrate naturally with the room's lighting.",
+      "images_used": [
+        "living_room.jpg",
+        "chair_reference.jpg"
+      ],
+      "timestamp": "2025-12-16T13:26:48.185020",
+      "duration_seconds": 14.59,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/6DXpXsdNW54wGRiZ0pYPziJ4gsk8T4A2JcuGzGLWpqC1X7cF/out-0.png",
+      "output_file": "product_001_132645.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "product_002",
+      "category": "Product Replication",
+      "name": "Chair style in dining room",
+      "difficulty": "very_hard",
+      "prompt": "Replace the dining chairs with chairs matching the style from the reference image - elegant tufted design with turned legs. Keep the same count of chairs and their positions around the table. Scale appropriately for dining height.",
+      "images_used": [
+        "dining_room.jpg",
+        "chair_reference.jpg"
+      ],
+      "timestamp": "2025-12-16T13:27:05.832424",
+      "duration_seconds": 14.79,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/DpBC3clRMSLdG9iryaMJ9SgeYw2hXV934yLBdPMA1dvyv25KA/out-0.png",
+      "output_file": "product_002_132703.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "complex_001",
+      "category": "Multi-Element",
+      "name": "Full room transformation - 4 changes",
+      "difficulty": "very_hard",
+      "prompt": "Transform this space: 1) Change wall color to deep forest green, 2) Replace sofa with cream linen sectional, 3) Add a large vintage Persian rug in reds and blues, 4) Swap the coffee table for a round marble-top table with brass base. Keep the existing lighting and artwork.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:27:19.302390",
+      "duration_seconds": 10.86,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/hlSVm0dI1ZofbiZeCt6yywYJPppEZz3x8yxC9KlSqfgsf1OXB/out-0.png",
+      "output_file": "complex_001_132717.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "complex_002",
+      "category": "Multi-Element",
+      "name": "Kitchen renovation - surfaces + hardware",
+      "difficulty": "very_hard",
+      "prompt": "Renovate this kitchen: Replace countertops with white Calacatta marble with dramatic gray veining. Change cabinet color to deep navy blue with satin finish. Replace all hardware with unlacquered brass pulls and knobs. Keep backsplash, appliances, and layout exactly as is.",
+      "images_used": [
+        "kitchen.jpg"
+      ],
+      "timestamp": "2025-12-16T13:27:34.654915",
+      "duration_seconds": 12.33,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/KeaqiRxBvLXOO6Yvnmh7OvvCOJe3AYVveRUSv2Tmm8PEAbnrA/out-0.png",
+      "output_file": "complex_002_132732.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "realism_001",
+      "category": "Photorealistic Integration",
+      "name": "Shadow and lighting consistency",
+      "difficulty": "hard",
+      "prompt": "Add a tall floor lamp with a linen drum shade in the corner to the right of the sofa. The lamp should cast realistic shadows consistent with the existing lighting in the room. Brushed nickel base, warm white light glowing through the shade.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:27:46.228083",
+      "duration_seconds": 9.44,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/tnZMOLXJQQ5YBBeAEbciOpj9CjkOr3tgIbOSGbXHPvXIw25KA/out-0.png",
+      "output_file": "realism_001_132745.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "realism_002",
+      "category": "Photorealistic Integration",
+      "name": "Reflection and material interaction",
+      "difficulty": "very_hard",
+      "prompt": "Replace the coffee table with a glass-top table with polished chrome legs. The glass should show realistic reflections of the room - the ceiling, nearby furniture, windows. Chrome legs should reflect the floor and surroundings.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:27:58.537919",
+      "duration_seconds": 10.22,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/U167rnejsnRmaimixM6eAVAs1iaQo9D2NByWGIPbIpIdgtzVA/out-0.png",
+      "output_file": "realism_002_132757.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "consistency_001",
+      "category": "Consistency",
+      "name": "Same edit, three runs",
+      "difficulty": "hard",
+      "prompt": "Change the sofa to a mid-century modern style in mustard yellow velvet. Wooden tapered legs, clean lines, slightly angled back. Keep everything else exactly the same.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:28:15.188037",
+      "duration_seconds": 14.54,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/0fstkHlrrrVfMUeUKciPrDGWLKoEZAep70lZAlpD5SAsC2OXB/out-0.png",
+      "output_file": "consistency_001_132814.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "consistency_001_run2",
+      "category": "Consistency",
+      "name": "Same edit, three runs",
+      "difficulty": "hard",
+      "prompt": "Change the sofa to a mid-century modern style in mustard yellow velvet. Wooden tapered legs, clean lines, slightly angled back. Keep everything else exactly the same.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:28:31.426016",
+      "duration_seconds": 13.11,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/E5vvY9DpZUY8DpJTx9rDqERVihONHHk4AyidQh9XHF7OY7cF/out-0.png",
+      "output_file": "consistency_001_run2_132830.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "consistency_001_run3",
+      "category": "Consistency",
+      "name": "Same edit, three runs",
+      "difficulty": "hard",
+      "prompt": "Change the sofa to a mid-century modern style in mustard yellow velvet. Wooden tapered legs, clean lines, slightly angled back. Keep everything else exactly the same.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:28:44.142221",
+      "duration_seconds": 9.61,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/xfngv1ZTFcSWCCFl7jeeXfzuRLtOhQYIitS2fWcnJTsdJsduC/out-0.png",
+      "output_file": "consistency_001_run3_132843.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "material_001",
+      "category": "Material Transfer",
+      "name": "Stone sample to countertop",
+      "difficulty": "hard",
+      "prompt": "Replace the kitchen countertops with the marble from the reference image. Match the exact vein pattern, color, and finish. Apply consistently across all counter surfaces including the island. Maintain edge profile and thickness.",
+      "images_used": [
+        "kitchen.jpg",
+        "marble_sample.jpg"
+      ],
+      "timestamp": "2025-12-16T13:28:59.124088",
+      "duration_seconds": 10.4,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/CsxdNMDnHao7O9mfQms7Tp0jqHGN8kidJnme3Z0AO7NYhtzVA/out-0.png",
+      "output_file": "material_001_132857.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "material_002",
+      "category": "Material Transfer",
+      "name": "Fabric sample to upholstery",
+      "difficulty": "hard",
+      "prompt": "Reupholster the sofa with the fabric from the reference image. Match the exact color, texture, and pattern. The fabric should drape naturally showing the texture and any pattern at the correct scale for furniture.",
+      "images_used": [
+        "living_room.jpg",
+        "fabric_sample.jpg"
+      ],
+      "timestamp": "2025-12-16T13:29:22.917597",
+      "duration_seconds": 20.56,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/7Qjuo4aeRerAPE7VghPENIBdOtpAHHOho3YpnRiN8ymuhtzVA/out-0.png",
+      "output_file": "material_002_132920.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "style_001",
+      "category": "Style Transfer",
+      "name": "Japandi transformation",
+      "difficulty": "medium",
+      "prompt": "Transform this room to match the Japandi aesthetic from the reference image. Apply: low-profile furniture forms, warm light wood tones, neutral color palette with black accents, natural textures (linen, wool, wood), deliberate negative space, minimal ornamentation. Preserve room architecture.",
+      "images_used": [
+        "living_room.jpg",
+        "japandi_reference.png"
+      ],
+      "timestamp": "2025-12-16T13:30:24.445394",
+      "duration_seconds": 59.67,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/cSE5jktEFh5QF9RIzDNBQMzd3wEpnxHvKgD4BOLl5LipY7cF/out-0.png",
+      "output_file": "style_001_133023.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "edge_001",
+      "category": "Edge Cases",
+      "name": "Preserve specific elements",
+      "difficulty": "hard",
+      "prompt": "Change ONLY the wall color to warm white. Keep absolutely everything else exactly as is - all furniture, art, lighting, flooring, window treatments, decor items. Nothing should move or change except the wall color.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:30:37.489675",
+      "duration_seconds": 10.45,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/BCDzOkmU9Vo8Hx5a31x9Chjj8r7heow6MPD41jJ6e7L7itzVA/out-0.png",
+      "output_file": "edge_001_133035.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    },
+    {
+      "test_id": "edge_002",
+      "category": "Edge Cases",
+      "name": "Remove single object cleanly",
+      "difficulty": "medium",
+      "prompt": "Remove the coffee table completely. Fill the space naturally with continuous flooring matching the existing floor exactly. Do not add anything new. All other furniture and decor must remain exactly in place.",
+      "images_used": [
+        "living_room.jpg"
+      ],
+      "timestamp": "2025-12-16T13:30:54.023674",
+      "duration_seconds": 13.86,
+      "success": true,
+      "output_url": "https://replicate.delivery/xezq/gfRJ48IRkFQUbqs9pMSgwqVt1eH25QragxbP3nxNapkKjtzVA/out-0.png",
+      "output_file": "edge_002_133052.png",
+      "error": null,
+      "notes": "",
+      "scores": {}
+    }
+  ]
+}

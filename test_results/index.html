@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUSE Model Evaluation Results</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-light: #ffffff;
+            --bg-card: #f8f9fa;
+            --bg-header: #f1f3f4;
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --text-muted: #888888;
+            --accent-blue: #2563eb;
+            --accent-green: #16a34a;
+            --accent-yellow: #d97706;
+            --accent-red: #dc2626;
+            --accent-purple: #9333ea;
+            --border: #e5e7eb;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            padding: 60px 40px;
+            text-align: center;
+            color: white;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 12px;
+        }
+
+        .header .subtitle {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .header-meta {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .meta-item {
+            text-align: center;
+        }
+
+        .meta-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .meta-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            opacity: 0.8;
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px;
+        }
+
+        /* Section */
+        .section {
+            margin-bottom: 50px;
+            page-break-inside: avoid;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 24px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-blue);
+        }
+
+        .section-icon {
+            font-size: 1.5rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        .section-count {
+            margin-left: auto;
+            background: var(--bg-header);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Test Card */
+        .test-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            page-break-inside: avoid;
+        }
+
+        .test-header {
+            background: var(--bg-header);
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .test-id {
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.875rem;
+            color: var(--accent-blue);
+            background: rgba(37, 99, 235, 0.1);
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+
+        .test-name {
+            font-size: 1.125rem;
+            font-weight: 600;
+            flex: 1;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 16px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .badge-hard {
+            background: rgba(217, 119, 6, 0.15);
+            color: var(--accent-yellow);
+        }
+
+        .badge-very-hard {
+            background: rgba(220, 38, 38, 0.15);
+            color: var(--accent-red);
+        }
+
+        .badge-medium {
+            background: rgba(22, 163, 74, 0.15);
+            color: var(--accent-green);
+        }
+
+        .badge-success {
+            background: rgba(22, 163, 74, 0.15);
+            color: var(--accent-green);
+        }
+
+        .test-body {
+            padding: 20px;
+        }
+
+        .prompt-box {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .prompt-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+        }
+
+        .prompt-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Image Grid */
+        .image-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 16px;
+        }
+
+        .image-slot {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .image-slot-label {
+            padding: 10px 14px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            background: var(--bg-header);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .image-slot-label .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .dot-original { background: var(--accent-blue); }
+        .dot-reference { background: var(--accent-purple); }
+        .dot-result { background: var(--accent-green); }
+
+        .image-slot img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Consistency Special */
+        .consistency-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .consistency-item {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+
+        .consistency-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .consistency-label {
+            padding: 10px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            background: var(--bg-header);
+        }
+
+        /* Criteria */
+        .criteria-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-top: 20px;
+        }
+
+        .criteria-box {
+            background: white;
+            border-radius: 8px;
+            padding: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .criteria-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+        }
+
+        .criteria-title.success { color: var(--accent-green); }
+        .criteria-title.failure { color: var(--accent-red); }
+
+        .criteria-list {
+            list-style: none;
+        }
+
+        .criteria-list li {
+            padding: 4px 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .criteria-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 6px;
+            flex-shrink: 0;
+        }
+
+        .criteria-box.success .criteria-list li::before {
+            background: var(--accent-green);
+        }
+
+        .criteria-box.failure .criteria-list li::before {
+            background: var(--accent-red);
+        }
+
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .stat {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Summary Section */
+        .summary-section {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 40px;
+            color: white;
+        }
+
+        .summary-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .summary-card-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .summary-card-label {
+            font-size: 0.75rem;
+            opacity: 0.9;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+        }
+
+        /* Print styles */
+        @media print {
+            .section { page-break-inside: avoid; }
+            .test-card { page-break-inside: avoid; }
+        }
+
+        @media (max-width: 768px) {
+            .criteria-grid { grid-template-columns: 1fr; }
+            .consistency-grid { grid-template-columns: 1fr; }
+            .summary-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <h1>MUSE Model Evaluation</h1>
+        <p class="subtitle">Qwen-Image-Edit-2509 Interior Design Capability Assessment</p>
+        <div class="header-meta">
+            <div class="meta-item">
+                <div class="meta-value">16</div>
+                <div class="meta-label">Total Tests</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-value">100%</div>
+                <div class="meta-label">Success Rate</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-value">13s</div>
+                <div class="meta-label">Avg. Time</div>
+            </div>
+            <div class="meta-item">
+                <div class="meta-value">8</div>
+                <div class="meta-label">Categories</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main">
+        <!-- Summary -->
+        <section class="summary-section">
+            <h2 class="summary-title">Test Run Summary</h2>
+            <div class="summary-grid">
+                <div class="summary-card">
+                    <div class="summary-card-value">16/16</div>
+                    <div class="summary-card-label">Tests Generated</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-value">5</div>
+                    <div class="summary-card-label">Multi-Image Tests</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-value">6</div>
+                    <div class="summary-card-label">Very Hard Tests</div>
+                </div>
+                <div class="summary-card">
+                    <div class="summary-card-value">34.5s</div>
+                    <div class="summary-card-label">Longest (Style)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Precise Scale -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">📐</span>
+                <h2 class="section-title">Precise Scale</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">scale_001</span>
+                    <span class="test-name">Sofa Sizing - Specific Dimensions</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Replace the sofa with a large sectional that fills approximately 70% of the wall width. The sectional should be L-shaped, facing right, in warm gray bouclé fabric. Maintain proper scale relative to the coffee table and rug.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Precise_Scale/scale_001_020401.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="criteria-grid">
+                        <div class="criteria-box success">
+                            <div class="criteria-title success">✓ Success Criteria</div>
+                            <ul class="criteria-list">
+                                <li>Sofa proportionally sized to wall</li>
+                                <li>L-shape orientation correct</li>
+                                <li>Scale relationship maintained</li>
+                                <li>Fabric texture visible</li>
+                            </ul>
+                        </div>
+                        <div class="criteria-box failure">
+                            <div class="criteria-title failure">✗ Failure Indicators</div>
+                            <ul class="criteria-list">
+                                <li>Sofa obviously wrong scale</li>
+                                <li>Floating or clipping into floor</li>
+                                <li>Other furniture distorted</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 12.9s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">scale_002</span>
+                    <span class="test-name">Pendant Light Height</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Add a large globe pendant light centered above the dining table. The pendant should hang at standard dining height - low enough to illuminate the table but high enough to not obstruct views. Warm brass finish, frosted glass globe approximately 50cm diameter.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/dining_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Precise_Scale/scale_002_020417.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 12.9s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Replication -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">🪑</span>
+                <h2 class="section-title">Product Replication</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">product_001</span>
+                    <span class="test-name">Chair from Reference</span>
+                    <span class="badge badge-very-hard">Very Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Place the tufted accent chair from the reference image in the corner by the window, replacing the existing armchair. Match the exact design - button tufting, curved back, turned legs. Position angled toward the room.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original Room</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-reference"></span>Reference Chair</div>
+                            <img src="test_images/chair_reference.jpg" alt="Reference">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Product_Replication/product_001_020434.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 15.5s</span>
+                        <span class="stat">🖼 2 images (multi-image)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">product_002</span>
+                    <span class="test-name">Chair Style in Dining Room</span>
+                    <span class="badge badge-very-hard">Very Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Replace the dining chairs with chairs matching the style from the reference image - elegant tufted design with turned legs. Keep the same count of chairs and their positions around the table.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original Room</div>
+                            <img src="test_images/dining_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-reference"></span>Reference Chair</div>
+                            <img src="test_images/chair_reference.jpg" alt="Reference">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Product_Replication/product_002_020452.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 13.9s</span>
+                        <span class="stat">🖼 2 images (multi-image)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Multi-Element -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">🎨</span>
+                <h2 class="section-title">Multi-Element</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">complex_001</span>
+                    <span class="test-name">Full Room Transformation - 4 Changes</span>
+                    <span class="badge badge-very-hard">Very Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Transform this space: 1) Change wall color to deep forest green, 2) Replace sofa with cream linen sectional, 3) Add a large vintage Persian rug in reds and blues, 4) Swap the coffee table for a round marble-top table with brass base. Keep the existing lighting and artwork.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result (4 changes)</div>
+                            <img src="Multi-Element/complex_001_020507.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 12.1s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">complex_002</span>
+                    <span class="test-name">Kitchen Renovation - Surfaces + Hardware</span>
+                    <span class="badge badge-very-hard">Very Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Renovate this kitchen: Replace countertops with white Calacatta marble with dramatic gray veining. Change cabinet color to deep navy blue with satin finish. Replace all hardware with unlacquered brass pulls and knobs. Keep backsplash, appliances, and layout exactly as is.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/kitchen.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Multi-Element/complex_002_020521.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 10.5s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Photorealistic Integration -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">✨</span>
+                <h2 class="section-title">Photorealistic Integration</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">realism_001</span>
+                    <span class="test-name">Shadow and Lighting Consistency</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Add a tall floor lamp with a linen drum shade in the corner to the right of the sofa. The lamp should cast realistic shadows consistent with the existing lighting in the room. Brushed nickel base, warm white light glowing through the shade.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Photorealistic_Integration/realism_001_020540.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 13.1s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">realism_002</span>
+                    <span class="test-name">Reflection and Material Interaction</span>
+                    <span class="badge badge-very-hard">Very Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Replace the coffee table with a glass-top table with polished chrome legs. The glass should show realistic reflections of the room - the ceiling, nearby furniture, windows. Chrome legs should reflect the floor and surroundings.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Photorealistic_Integration/realism_002_020558.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 14.2s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Consistency -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">🔄</span>
+                <h2 class="section-title">Consistency</h2>
+                <span class="section-count">3 runs</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">consistency_001</span>
+                    <span class="test-name">Same Edit, Three Runs</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt (identical for all 3 runs)</div>
+                        <div class="prompt-text">Change the sofa to a mid-century modern style in mustard yellow velvet. Wooden tapered legs, clean lines, slightly angled back. Keep everything else exactly the same.</div>
+                    </div>
+
+                    <div style="margin-bottom: 20px;">
+                        <div class="image-slot-label" style="background: transparent; padding: 0 0 8px 0; border: none;"><span class="dot dot-original"></span>Original Input</div>
+                        <div class="image-slot" style="max-width: 350px;">
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                    </div>
+
+                    <div class="image-slot-label" style="background: transparent; padding: 0 0 8px 0; border: none;"><span class="dot dot-result"></span>Three Consecutive Runs</div>
+                    <div class="consistency-grid">
+                        <div class="consistency-item">
+                            <img src="Consistency/consistency_001_020615.png" alt="Run 1">
+                            <div class="consistency-label">Run 1 (13.8s)</div>
+                        </div>
+                        <div class="consistency-item">
+                            <img src="Consistency/consistency_001_run2_020629.png" alt="Run 2">
+                            <div class="consistency-label">Run 2 (10.8s)</div>
+                        </div>
+                        <div class="consistency-item">
+                            <img src="Consistency/consistency_001_run3_020652.png" alt="Run 3">
+                            <div class="consistency-label">Run 3 (11.8s)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Material Transfer -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">🪨</span>
+                <h2 class="section-title">Material Transfer</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">material_001</span>
+                    <span class="test-name">Stone Sample to Countertop</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Replace the kitchen countertops with the marble from the reference image. Match the exact vein pattern, color, and finish. Apply consistently across all counter surfaces including the island.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original Kitchen</div>
+                            <img src="test_images/kitchen.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-reference"></span>Marble Sample</div>
+                            <img src="test_images/marble_sample.jpg" alt="Marble Sample">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Material_Transfer/material_001_020709.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 11.4s</span>
+                        <span class="stat">🖼 2 images (multi-image)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">material_002</span>
+                    <span class="test-name">Fabric Sample to Upholstery</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Reupholster the sofa with the fabric from the reference image. Match the exact color, texture, and pattern. The fabric should drape naturally showing the texture and any pattern at the correct scale for furniture.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original Room</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-reference"></span>Fabric Sample</div>
+                            <img src="test_images/fabric_sample.jpg" alt="Fabric Sample">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Material_Transfer/material_002_020730.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 19.0s</span>
+                        <span class="stat">🖼 2 images (multi-image)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Style Transfer -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">🏠</span>
+                <h2 class="section-title">Style Transfer</h2>
+                <span class="section-count">1 test</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">style_001</span>
+                    <span class="test-name">Japandi Transformation</span>
+                    <span class="badge badge-medium">Medium</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Transform this room to match the Japandi aesthetic from the reference image. Apply: low-profile furniture forms, warm light wood tones, neutral color palette with black accents, natural textures (linen, wool, wood), deliberate negative space, minimal ornamentation. Preserve room architecture.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original Room</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-reference"></span>Japandi Reference</div>
+                            <img src="test_images/japandi_reference.png" alt="Japandi Reference">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result</div>
+                            <img src="Style_Transfer/style_001_020816.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 34.5s (longest)</span>
+                        <span class="stat">🖼 2 images (multi-image)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Edge Cases -->
+        <section class="section">
+            <div class="section-header">
+                <span class="section-icon">⚠️</span>
+                <h2 class="section-title">Edge Cases</h2>
+                <span class="section-count">2 tests</span>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">edge_001</span>
+                    <span class="test-name">Preserve Specific Elements</span>
+                    <span class="badge badge-hard">Hard</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Change ONLY the wall color to warm white. Keep absolutely everything else exactly as is - all furniture, art, lighting, flooring, window treatments, decor items. Nothing should move or change except the wall color.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result (wall only)</div>
+                            <img src="Edge_Cases/edge_001_020829.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 10.8s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-card">
+                <div class="test-header">
+                    <span class="test-id">edge_002</span>
+                    <span class="test-name">Remove Single Object Cleanly</span>
+                    <span class="badge badge-medium">Medium</span>
+                    <span class="badge badge-success">Generated</span>
+                </div>
+                <div class="test-body">
+                    <div class="prompt-box">
+                        <div class="prompt-label">Prompt</div>
+                        <div class="prompt-text">Remove the coffee table completely. Fill the space naturally with continuous flooring matching the existing floor exactly. Do not add anything new. All other furniture and decor must remain exactly in place.</div>
+                    </div>
+                    <div class="image-grid">
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-original"></span>Original</div>
+                            <img src="test_images/living_room.jpg" alt="Original">
+                        </div>
+                        <div class="image-slot">
+                            <div class="image-slot-label"><span class="dot dot-result"></span>Result (table removed)</div>
+                            <img src="Edge_Cases/edge_002_020843.png" alt="Result">
+                        </div>
+                    </div>
+                    <div class="stats-bar">
+                        <span class="stat">⏱ 11.3s</span>
+                        <span class="stat">🖼 1 image</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p><strong>MUSE Model Evaluation Framework</strong></p>
+        <p style="margin-top: 8px;">Model: qwen/qwen-image-edit-plus | Run: December 15, 2025</p>
+    </footer>
+</body>
+</html>
